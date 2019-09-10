@@ -11,14 +11,17 @@ const { expect } = chai
 
 describe('@rplan/sentry-webclient', () => {
   const sandbox = sinon.createSandbox()
+  const currentEnv = process.env
   let initStub
 
   beforeEach(() => {
     initStub = sandbox.stub(client, 'init')
+    process.env.GIT_COMMIT = 'any-hash'
   })
 
   afterEach(() => {
     sandbox.restore()
+    process.env = currentEnv
   })
 
   describe('initClient', () => {
@@ -29,6 +32,7 @@ describe('@rplan/sentry-webclient', () => {
         dsn,
         environment,
         enabled,
+        release: 'any-hash',
       })
     })
   })

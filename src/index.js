@@ -7,7 +7,12 @@ import {
 } from './config'
 
 const initClient = () => {
-  client.init({ dsn, environment, enabled })
+  client.init({
+    dsn,
+    environment,
+    enabled,
+    release: process.env.GIT_COMMIT,
+  })
 }
 
 export {
