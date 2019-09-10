@@ -1,0 +1,19 @@
+root: true
+extends:
+- actano
+
+rules:
+  import/no-extraneous-dependencies:
+  - error
+  - devDependencies:
+    - 'test/**/*.js'
+    - 'test/**/*.jsx'
+
+overrides:
+- files:
+  - 'test/**/*.js'
+  - 'test/**/*.jsx'
+  env:
+    mocha: true
+  rules:
+    no-unused-expressions: 'off'
