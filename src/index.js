@@ -21,6 +21,9 @@ const initClient = () => {
       // see: https://docs.sentry.io/data-management/event-grouping/sdk-fingerprinting/?platform=javascript
       for (const handler of fingerprintHandlers) {
         if (handler.matches(error)) {
+          if (!handler.handleError(error)) {
+            return undefined
+          }
           const fingerprint = handler.getFingerprint(error)
           const message = handler.getMessage(error)
 
