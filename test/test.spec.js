@@ -28,12 +28,12 @@ describe('@rplan/sentry-webclient', () => {
     it('should call the init from sentry with the right params', () => {
       initClient()
 
-      expect(initStub).to.have.been.calledWith({
+      expect(initStub).to.have.been.calledWith(sinon.match({
         dsn,
         environment,
         enabled,
         release: 'any-hash',
-      })
+      }))
     })
   })
 })
