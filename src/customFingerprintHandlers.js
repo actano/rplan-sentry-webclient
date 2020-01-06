@@ -14,7 +14,7 @@ const getStatusDetail = (error) => {
 
 const axiosError = {
   matches: error => !!error.request && !!error.response && !!error.config,
-  handleError: error => ![401, 404].includes(error.response.status),
+  handleError: error => ![401, 403].includes(error.response.status),
   getFingerprint: error => ['{{ default }}', error.config.method, replaceUUIDs(error.config.url), error.response.status, getStatusDetail(error)],
   getMessage(error) {
     const statusText = `${error.response.status} ${getStatusDetail(error)}`.trim()
