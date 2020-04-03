@@ -22,6 +22,21 @@ const axiosError = {
   },
 }
 
+const axiosNetworkError = {
+  matches: error => !!error.request && (error.response == null) && !!error.config,
+  handleError: () => true,
+  getFingerprint: error => [
+    '{{ default }}',
+    'Network Error',
+    error.config.method,
+    replaceUUIDs(error.config.url),
+  ],
+  getMessage(error) {
+    return `Network Error: ${error.config.method} ${error.config.url}`
+  },
+}
+
 export default [
   axiosError,
+  axiosNetworkError,
 ]
