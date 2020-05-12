@@ -18,19 +18,21 @@ const initClient = () => {
     beforeSend(event, hint) {
       const error = hint.originalException
 
-      const handler = fingerprintHandlers.find(h => h.matches(error))
+      if (typeof error === 'object') {
+        const handler = fingerprintHandlers.find(h => h.matches(error))
 
-      // see: https://docs.sentry.io/data-management/event-grouping/sdk-fingerprinting/?platform=javascript
-      if (handler) {
-        if (!handler.handleError(error)) {
-          return undefined
-        }
-        const fingerprint = handler.getFingerprint(error)
-        const message = handler.getMessage(error)
+        // see: https://docs.sentry.io/data-management/event-grouping/sdk-fingerprinting/?platform=javascript
+        if (handler) {
+          if (!handler.handleError(error)) {
+            return undefined
+          }
+          const fingerprint = handler.getFingerprint(error)
+          const message = handler.getMessage(error)
 
-        set(event, 'fingerprint', fingerprint)
-        if (message) {
-          set(event, 'exception.values[0].value', message)
+          set(event, 'fingerprint', fingerprint)
+          if (message) {
+            set(event, 'exception.values[0].value', message)
+          }
         }
       }
 
