@@ -18,7 +18,7 @@ const initClient = () => {
     beforeSend(event, hint) {
       const error = hint.originalException
 
-      if (typeof error === 'object') {
+      if ((error != null) && (typeof error === 'object')) {
         const handler = fingerprintHandlers.find(h => h.matches(error))
 
         // see: https://docs.sentry.io/data-management/event-grouping/sdk-fingerprinting/?platform=javascript
