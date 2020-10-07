@@ -41,6 +41,19 @@ function addTagsToEvent(event, tags) {
   }
 }
 
+function guardAgainstCircularEvent(event, error) {
+  try {
+    JSON.stringify(event)
+  } catch (e) {
+    if (e.message.toLowerCase().includes('circular structure')) {
+      const circularStructureError = new Error('sentry-client.beforeSend: event contains circular structure, forward original error stack')
+      circularStructureError.stack = error.stack
+      throw circularStructureError
+    }
+    throw e
+  }
+}
+
 const initClient = () => {
   client.init({
     dsn,
@@ -54,6 +67,7 @@ const initClient = () => {
       }
 
       const error = hint.originalException
+      guardAgainstCircularEvent(event, error)
 
       if ((error != null) && (typeof error === 'object')) {
         const handler = fingerprintHandlers.find(h => h.matches(error))
