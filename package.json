@@ -34,6 +34,7 @@
     "@rplan/config-webclient": "^2.0.0",
     "@rplan/featureswitch-webclient": "^2.1.0",
     "@sentry/browser": "^5.25.0",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "safe-clone-deep": "^1.1.5"
   }
 }
