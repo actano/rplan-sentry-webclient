@@ -1,3 +1,4 @@
+import pickBy from 'lodash/pickBy'
 import mapValues from 'lodash/mapValues'
 import keyBy from 'lodash/keyBy'
 import set from 'lodash/set'
@@ -59,6 +60,16 @@ function sanitizeCircularReferences(obj) {
   }
 }
 
+function filterEventTagsForNull(event) {
+  // eslint-disable-next-line no-param-reassign
+  event.tags = event.tags || {}
+  // eslint-disable-next-line no-param-reassign
+  event.tags = pickBy(
+    event.tags,
+    (value, key) => key != null,
+  )
+}
+
 const initClient = () => {
   client.init({
     dsn,
@@ -92,6 +103,8 @@ const initClient = () => {
           }
         }
       }
+
+      filterEventTagsForNull(event)
 
       return event
     },
