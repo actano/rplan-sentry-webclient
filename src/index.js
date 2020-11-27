@@ -43,11 +43,16 @@ function addTagsToEvent(event, tags) {
   }
 }
 
+const isCyclicReferenceError = (err) => {
+  const message = err.message.toLowerCase()
+  return message.includes('circular') || message.includes('cyclic')
+}
+
 function sanitizeCircularReferences(obj) {
   try {
     JSON.stringify(obj)
   } catch (err) {
-    if (err.message.toLowerCase().includes('circular structure')) {
+    if (isCyclicReferenceError(err)) {
       const sanitizedDeepClone = safeCloneDeep(obj)
       for (const key of Object.keys(obj)) {
         // the sanitizing needs to happen in place
